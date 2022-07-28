@@ -1,2 +1,10 @@
 # F1Program
-This shit doesnt work LMAO but i wanna be able to see and maybe work on it later
+This shit works rn but not finished
+
+Things I want to do:
+  1. Add something about track history 
+  2. Compare it to actual results
+  3. Look at the efficiency of their results see if its better or worse than expected
+  4. Start using objects and OOP
+  5. Make spiffy
+  6. Find a way to put down all values and check the efficiency of each race at once
