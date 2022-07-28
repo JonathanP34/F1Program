@@ -11,7 +11,7 @@ import java.util.*;
 public class F1Project {
     /*
      * avgPositionValue
-     * FInding the avg position the driver has acheived that year and 
+     * Finding the avg position the driver has acheived that year and 
     */
     public static double[] avgPositionValue(int[][] eachRacer, int numRacers, int numRaces) {
         double[] points = new double[numRacers];
@@ -117,21 +117,29 @@ public class F1Project {
     }
     
     
-    public static double[] avgCarCostPoints(int[] carCost, int numRacers, int numRaces) {
+    public static double[] avgCarCostPoints(double[] carCost, int numRacers, int numRaces) {
         double[] points = new double[numRacers];
         double temp;
         
         //Finding the minimum amount spent on a car
-        double min = 999999; 
+        double min = carCost[0]; 
         for (int i = 0; i < numRacers; i++) {
             if (carCost[i] < min) {
-                min = carCost[i]/10;
+                min = carCost[i];
             }
         }
+        //Dividing by 10 to lower the value of the numbers
+        min = min/10;
         //Getting the points for the car
         for (int i = 0; i < numRacers; i++) {
-            temp = carCost[i]/10;
-            temp = Math.sqrt(temp - min);
+            temp = carCost[i]/10.0; //Making sure that you dont floor divide 
+            if (temp <= min) {
+                temp = 0;
+            }
+            else { //Making sure you dont divide by 0
+                temp = Math.sqrt(temp - min);
+            }
+            
             points[i] = temp;
         }
         
@@ -177,11 +185,12 @@ public class F1Project {
         TreeMap<Double, String> sorted = new TreeMap<>(); //Used to sort the hashmap
         
         //Adding the scores to a hashmap with the player name connected
+        
         for (int i = 0; i < playerNames.length; i++) {
             scores.put(points[i], playerNames[i]);
-            System.out.println(playerNames[i] + ": " + points[i]);
+            //System.out.println(playerNames[i] + ": " + points[i]);
         }
-        System.out.println(scores);
+        
         //Adding all of the values of the hashmap into the treemap which automatically sorts it
         sorted.putAll(scores); //Wtf this is op
         
@@ -189,7 +198,8 @@ public class F1Project {
         System.out.println("\n---LIKELY WINNER OF " + grandPrix.toUpperCase() + " GRAND PRIX---");
         //Outputting the placement of the racers
         for (Map.Entry<Double, String> entry : sorted.entrySet()) {
-            System.out.println("In " + ct + " place: " + entry.getValue() + " with " + entry.getKey() + " points.");
+            double rounded = (double) Math.round(entry.getKey()*100) / 100;
+            System.out.println(ct + " place: " + entry.getValue() + " - " + rounded + " points.");
             ct -= 1; //Prints in order from numRacers -> 1
         }   
     }
@@ -228,7 +238,7 @@ public class F1Project {
         
         //Array holding the cost of the car in millions
         //                 RedBull   Ferrari   Mercedes   Alpine    McLaren  Williams  AlfaRom.   Haas   Alphatauri  Aston Martin
-        int[] costOfCar = {445,445,  463,463,  484,484,  272,272,  269,269,  141,141,  132,132,  173,173,  138,138,   188,188};
+        double[] costOfCar = {445,445,  463,463,  484,484,  272,272,  269,269,  141,141,  132,132,  173,173,  138,138,   188,188};
         
         //Array holding the qualifying times for the current race in the same order as the above in seconds
         //                     Ver.   Perez     Sainz   Leclerc    Lewis   Russel     Ocon     Alonso   Norris Ricciardo  Latifi   Albon   Bottas    Zhou
@@ -237,7 +247,7 @@ public class F1Project {
         //                       Mag.     Schu.   Gasly    Tsunoda   Vettel   Stroll
         
         //Holds whether there will be or has been rain on the track at the time of the grand prix
-        boolean[] rainOnTrack = {false, false, false, false, false, false};
+        boolean[] rainOnTrack = {false, false, false, false, false, true};
         
         //List holding all of the players positions
         int[][] eachRacerPosition = new int[numRacers][numRaces];
@@ -251,7 +261,7 @@ public class F1Project {
         //Finding the points gained from that particular category then adding it to points
         double[] pointsTemp = new double[numRacers];
         
-        
+
         //Getting the points from the personal ranking
         pointsTemp = avgPositionValue(eachRacerPosition, numRacers, numRaces);
         points = addingPoints(points, pointsTemp, playerNames, numRacers, numRaces); //Adding it to the total points, maybe put in other methods?
@@ -263,7 +273,6 @@ public class F1Project {
         //Getting the points from the qualifying position
         pointsTemp = avgQualiPositionValue(qualifyingPositionByRacer, avgOverTakes[avgOverTakes.length-1], numRacers, numQualis);
         points = addingPoints(points, pointsTemp, playerNames, numRacers, numRaces);
-        
         
         //Looking at the frequency of randomness for drivers based on starting position
         pointsTemp = avgRandomnessPoints(qualifyingPositionByRacer, numRacers, numQualis);
@@ -277,6 +286,7 @@ public class F1Project {
         pointsTemp = avgQualiTimePoints(qualiTimes, numRacers, numQualis);
         points = addingPoints(points, pointsTemp, playerNames, numRacers, numRaces);
        
+        //Getting the points from cost of the car
         pointsTemp = avgCarCostPoints(costOfCar, numRacers, numRaces);
         points = addingPoints(points, pointsTemp, playerNames, numRacers, numRaces);
         
@@ -296,3 +306,4 @@ public class F1Project {
     
 
 }
+
