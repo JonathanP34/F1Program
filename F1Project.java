@@ -146,6 +146,21 @@ public class F1Project {
         return points;
     }
     
+    public static double[] avgPastTrackPoints(int[] pastTrackResults, int numRacers, int numQualis) {
+        double[] points = new double[numRacers];
+        double temp;
+        
+        //Starting at the 5th position in the array
+        int ct = numQualis - 1;
+        for (int i = 0; i < numRacers; i++) {
+            temp = pastTrackResults[ct];
+            temp = (-1/4 * temp) + 5;
+            points[i] = temp; //Adding the points to the array
+            ct += numQualis; //Looking at the most recent race past results
+        }
+        
+        return points;  
+    }
     
     /*
      * addingPoints
@@ -206,7 +221,7 @@ public class F1Project {
     
     
     public static void main(String[] args) {
-        int numRaces = 4;
+        int numRaces = 5;
         int numRacers = 20;
         int numQualis = numRaces + 1;
         int numTeams = 10;
@@ -216,45 +231,50 @@ public class F1Project {
                                 "Latifi", "Albon",    "Bottas", "Zhou",   "Magnussen", "Schumacher",    "Gasly", "Tsunoda",    "Vettel", "Stroll",};
         //                          Williams                Alfa Romeo              Haas                   Alphatauri              Aston Martin
         
-        String[] grandPrixNames = {"Bahrain", "Saudi Arabia", "Australia", "Emilia Romagna", "Miami"};
+        String[] grandPrixNames = {"Bahrain", "Saudi Arabia", "Australia", "Emilia Romagna", "Miami", "Spain"};
         
         //The arrays for the final position in the grand prixs, could update how it works
-        //                          Verstappen    Perez      Sainz      Leclerc     Lewis      Russel      Ocon       Alonso      Norris     Ricciardo
-        int[] allPositionsByRacer = {20,1,20,1,  20,4,2,2,  2,3,20,20,  1,2,1,6,  3,10,4,13,  4,5,3,4,  7,6,7,14,  9,20,17,20,  15,7,5,3,  14,20,6,18,
-                                  16,20,16,16,  13,20,10,11,  6,20,8,5,  10,11,11,15,  5,9,14,9,  11,20,13,17,  20,8,9,12,  8,20,15,7,  20,8,20,11,  12,13,12,10};
-        //                          Latifi         Albon       Bottas        Zhou      Magnussen    Schumacher    Gasly      Tsunoda      Vettel       Stroll
+        //                          Verstappen       Perez         Sainz       Leclerc     Lewis         Russel        Ocon          Alonso      Norris     Ricciardo
+        int[] allPositionsByRacer = {20,1,20,1,1,  20,4,2,2,4,  2,3,20,20,3,  1,2,1,6,2,  3,10,4,13,6,  4,5,3,4,5,  7,6,7,14,8,  9,20,17,20,11,  15,7,5,3,20,  14,20,6,18,13,
+              16,20,16,16,14,  13,20,10,11,9,  6,20,8,5,7,  10,11,11,15,20,  5,9,14,9,16,  11,20,13,17,15,  20,8,9,12,20,  8,20,15,7,12,  20,8,20,11,17,  12,13,12,10,11};
+        //       Latifi         Albon           Bottas         Zhou         Magnussen        Schumacher        Gasly         Tsunoda         Vettel           Stroll
         
         //The array for the qualifying position, where do they start on the grid
-        //                                Verstappen      Perez       Sainz       Leclerc     Lewis      Russel         Ocon       Alsonso      Norris    Ricciardo
-        int[] qualifyingPositionByRacer = {0,0,0,0,3,  0,0,0,0,4,  0,0,0,0,2,  0,0,0,0,1,  0,0,0,0,6,  0,0,0,0,12,  0,0,0,0,20,  0,0,0,0,11,  0,0,0,0,8, 0,0,0,0,14,
-                                        0,0,0,0,19,  0,0,0,0,18,  0,0,0,0,5,  0,0,0,0,17,  0,0,0,0,16,  0,0,0,0,15,  0,0,0,0,7,  0,0,0,0,9,  0,0,0,0,13,  0,0,0,0,10};
-        //                               Latifi        Albon         Bottas     Zhou         Magnussen   Schumacher     Gasly     Tsunoda       Vettel      Stroll
+        //                                Verstappen        Perez          Sainz       Leclerc        Lewis         Russel         Ocon            Alsonso          Norris     Ricciardo
+        int[] qualifyingPositionByRacer = {0,0,0,0,3,2,  0,0,0,0,4,5,  0,0,0,0,2,3,  0,0,0,0,1,1,  0,0,0,0,6,6,  0,0,0,0,12,4,  0,0,0,0,20,12,  0,0,0,0,11,20,  0,0,0,0,8,11, 0,0,0,0,14,9,
+             0,0,0,0,19,19,  0,0,0,0,18,18,  0,0,0,0,5,7,  0,0,0,0,17,15,  0,0,0,0,16,8,  0,0,0,0,15,10,  0,0,0,0,7,14,  0,0,0,0,9,13,  0,0,0,0,13,16,  0,0,0,0,10,17};
+        //     Latifi        Albon              Bottas           Zhou         Magnussen   Schumacher         Gasly         Tsunoda         Vettel         Stroll
         
-//Array holding the ages of each driver, could change to years in f1
+        //Array holding the ages of each driver, could change to years in f1
         int[] driverAge = {24,32,  27,24,  37,24,  25,40,  22,32,  26,26,  32,22,  29,23,  26,21,  34,23};
         
         //Array holding the avg overtakes per track
-        int[] avgOverTakes = {41, 20, 6, 22, 55};
+        int[] avgOverTakes = {41, 20, 6, 22, 55, 23};
         
         //Array holding the cost of the car in millions
         //                 RedBull   Ferrari   Mercedes   Alpine    McLaren  Williams  AlfaRom.   Haas   Alphatauri  Aston Martin
         double[] costOfCar = {445,445,  463,463,  484,484,  272,272,  269,269,  141,141,  132,132,  173,173,  138,138,   188,188};
         
-        //Array holding the qualifying times for the current race in the same order as the above in seconds
-        //                     Ver.   Perez     Sainz   Leclerc    Lewis   Russel     Ocon     Alonso   Norris Ricciardo  Latifi   Albon   Bottas    Zhou
-        double[] qualiTimes = {88.991, 89.036,  88.986,  88.796,  89.625,  90.173,  89.036+3, 90.160,  89.750,  90.310,  91.325,  91.266,  89.475,  91.020,  
-                                90.975,  90.423,  89.690,  89.932,  90.215,  90.676};
+        //Array holding the qualifying times for the current race in the same order as the above in seconds, add 3 to the lowest time so they get 0
+        //                     Ver.   Perez     Sainz   Leclerc    Lewis   Russel    Ocon   Alonso   Norris Ricciardo  Latifi   Albon   Bottas    Zhou
+        double[] qualiTimes = {79.073, 79.420,  79.166,  78.750,  79.512,  79.393,  80.638, 78.750+3,  80.471,  80.297,  81.915,  81.645,  79.608,  81.094,  
+                                79.682,  80.368,  80.861,  80.639,  80.954,  81.418};
         //                       Mag.     Schu.   Gasly    Tsunoda   Vettel   Stroll
         
         //Holds whether there will be or has been rain on the track at the time of the grand prix
-        boolean[] rainOnTrack = {false, false, false, false, false, true};
+        boolean[] rainOnTrack = {false, false, false, false, false};
+        
+        //Array holding the drivers previous race results on the tracks being driver than season, only looking at the previous season
+        //                      Verstappen           Perez             Sainz          Leclerc        Lewis             Russel               Ocon          Alsonso           Norris       Ricciardo
+        int[] pastTrackResults = {2,2,3,1,20,2,  5,20,13,11,20,5,  8,8,20,5,20,7,  6,7,5,4,20,4,  1,1,2,2,20,1,  14,20,16,20,20,14, 13,4,9,12,20,9,  20,13,5,10,20,17,  4,10,12,3,20,8, 7,5,20,6,20,6,
+         20,12,20,20,20,16,  9,20,14,3,20,8,  3,3,1,20,20,3,  20,20,20,20,20,20,  17,20,6,20,20,15,  16,20,20,16,20,18,  20,6,11,7,20,10,  9,14,20,12,20,20,  15,20,4,20,20,13,  10,11,9,8,20,11};
+        //  Latifi               Albon         Bottas               Zhou             Magnussen          Schumacher            Gasly         Tsunoda         Vettel          Stroll
         
         //List holding all of the players positions
         int[][] eachRacerPosition = new int[numRacers][numRaces];
         
         //Converting the arrays into a 2d form
         eachRacerPosition = arraySorter(allPositionsByRacer, numRacers, numRaces);
-        
         
         //Finding the average position of the driver that season
         double[] points = new double[numRacers];
@@ -290,6 +310,10 @@ public class F1Project {
         pointsTemp = avgCarCostPoints(costOfCar, numRacers, numRaces);
         points = addingPoints(points, pointsTemp, playerNames, numRacers, numRaces);
         
+        //Getting the points from the racers past experience on the track
+        pointsTemp = avgPastTrackPoints(pastTrackResults, numRacers, numRaces);
+        points = addingPoints(points, pointsTemp, playerNames, numRacers, numRaces);
+        
         //Printing out the final standings
         finalStandings(points, playerNames, grandPrixNames[grandPrixNames.length - 1], numRacers, numRaces, numQualis);
         
@@ -298,7 +322,7 @@ public class F1Project {
         Things i have yet to add:
         1. qualifying time - done
         2. cost of car - done
-        3. history on track
+        3. history on track - done
         4. make it spiffy
         5. apply to actual f1 and start looking through the season to compare
         */
@@ -306,4 +330,3 @@ public class F1Project {
     
 
 }
-
