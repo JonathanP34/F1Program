@@ -317,7 +317,7 @@ public class F1Project {
         //Printing out the final standings
         finalStandings(points, playerNames, grandPrixNames[grandPrixNames.length - 1], numRacers, numRaces, numQualis);
         
-        
+       
         /*
         Things i have yet to add:
         1. qualifying time - done
