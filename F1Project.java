@@ -3,6 +3,7 @@
  * Gonna do everything in one class with methods for now, easier this way
  * Gonna do a mock version for now just to get hte idea working
 **/
+
 import java.util.*;
 /**
  *
@@ -262,7 +263,7 @@ public class F1Project {
         //                       Mag.     Schu.   Gasly    Tsunoda   Vettel   Stroll
         
         //Holds whether there will be or has been rain on the track at the time of the grand prix
-        boolean[] rainOnTrack = {false, false, false, false, false};
+        boolean[] rainOnTrack = {false, false, false, false, false, false};
         
         //Array holding the drivers previous race results on the tracks being driver than season, only looking at the previous season
         //                      Verstappen           Perez             Sainz          Leclerc        Lewis             Russel               Ocon          Alsonso           Norris       Ricciardo
@@ -272,6 +273,12 @@ public class F1Project {
         
         //List holding all of the players positions
         int[][] eachRacerPosition = new int[numRacers][numRaces];
+        
+        //List holding the actual result of the races
+        //                       Verstappen         Perez          Sainz          Leclerc          Lewis        Russel          Ocon            Alonso          Norris          Ricciardo
+        int[] finalPositions = {20,1,20,1,1,1,  20,4,2,2,4,2,  2,3,20,20,3,4,  1,2,1,6,2,20,  3,10,4,13,6,5,  4,5,3,4,5,3,  7,6,7,14,8,7,  9,20,17,20,11,9,  15,7,5,3,20,8,  14,20,6,18,13,12,
+              16,20,16,16,14,16,  13,20,10,11,9,18,  6,20,8,5,7,6,  10,11,11,15,20,20,  5,9,14,9,16,17,  11,20,13,17,15,14,  20,8,9,12,20,13,  8,20,15,7,12,10,  20,8,20,11,17,11,  12,13,12,10,11,15};
+        //          Latifi             Albon             Bottas            Zhou             Magnussen        Schumacher           Gasly             Tsunoda           Vettel              Stroll
         
         //Converting the arrays into a 2d form
         eachRacerPosition = arraySorter(allPositionsByRacer, numRacers, numRaces);
@@ -317,7 +324,7 @@ public class F1Project {
         //Printing out the final standings
         finalStandings(points, playerNames, grandPrixNames[grandPrixNames.length - 1], numRacers, numRaces, numQualis);
         
-       
+        
         /*
         Things i have yet to add:
         1. qualifying time - done
