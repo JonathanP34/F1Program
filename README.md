@@ -1,5 +1,5 @@
 # F1Program
-This shit works rn but not finished
+Works rn but doesnt predict anything properly so not even remotely closed to finished
 
 Things I want to do:
   1. Add something about track history - done
